@@ -21,12 +21,12 @@ function AddUserPopUp({ setData, setAddUserPopup }) {
           phone
         })
       })
-      .then(response => response.json())
-      .then(json => {setData(json); setAddUserPopup(false)})
+        .then(response => response.json())
+        .then(json => { setData(json); setAddUserPopup(false) })
     }
   }
 
-  return <div className="absolute bg-white p-6 w-1/2 rounded-lg shadow-2xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+  return <div className="fixed bg-white p-6 w-1/2 rounded-lg shadow-2xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
     <div className="flex items-center justify-between mb-6">
       <h2 className="text-3xl">Add User</h2>
       <button onClick={() => setAddUserPopup(false)}>
@@ -72,14 +72,14 @@ function App() {
     if (!query) {
       // send a fetch request to the url
       fetch("http://localhost:3001/users/list")
-      // parse the response as json
-      .then(response => response.json())
-      // set the data to the response
-      .then(json => setData(json));
+        // parse the response as json
+        .then(response => response.json())
+        // set the data to the response
+        .then(json => setData(json));
     } else {
       fetch(`http://localhost:3001/users/search?q=${query}`)
-      .then(response => response.json())
-      .then(json => setData(json));
+        .then(response => response.json())
+        .then(json => setData(json));
     }
   }, [query])
 
@@ -87,15 +87,15 @@ function App() {
     fetch(`http://localhost:3001/users/delete/${id}`, {
       method: "DELETE"
     })
-    .then(response => response.json())
-    .then(json => setData(json));
+      .then(response => response.json())
+      .then(json => setData(json));
   }
 
   return (
-    <div className="App w-full h-screen text-zinc-800 flex mt-32  justify-center relative">
+    <div className="App w-full text-zinc-800 flex flex-col py-32 items-center relative">
       <div className="flex w-3/4 flex-col gap-6">
         <div className="w-full flex items-center justify-between">
-          <h1 className="text-3xl">Casual People Lmao</h1>
+          <h1 className="text-3xl">Contact List</h1>
           <button onClick={() => setAddUserPopup(true)} className="bg-amber-500 flex items-center gap-1 px-8 py-2 rounded-md text-white shadow-md hover:bg-amber-600 transition-all">
             <Icon icon="uil:plus" className="stroke stroke-white" />
             Add user
@@ -105,21 +105,21 @@ function App() {
           <Icon icon="uil:search" className="w-6 h-6 text-zinc-500" />
           <input value={query} onChange={(e) => setQuery(e.target.value)} type="text" placeholder="Search user..." className="placeholder-zinc-500 w-full focus:outline-none" />
         </div>
-        <table>
+        <table className="min-w-0">
           <thead className="border-b border-zinc-500">
-            <tr> 
-              <th className="py-4 px-8 text-left">Name</th>
-              <th className="py-4 px-8 text-left">Age</th>
-              <th className="py-4 px-8 text-left">Email</th>
-              <th className="py-4 px-8 text-left">Phone</th>
-              <th className="py-4 px-8">Delete</th>
+            <tr>
+              <th className="py-3 px-8 text-left">Name</th>
+              <th className="py-3 px-8">Age</th>
+              <th className="py-3 px-8 text-left">Email</th>
+              <th className="py-3 px-8 text-left">Phone</th>
+              <th className="py-3 px-8">Delete</th>
             </tr>
           </thead>
           <tbody className="divide-y">
             {data.length ? data.map(user => (
               <tr key={user.id}>
                 <td className="px-8 py-4 text-left">{user.name}</td>
-                <td className="px-8 py-4 text-left">{user.age}</td>
+                <td className="px-8 py-4 text-center">{user.age}</td>
                 <td className="px-8 py-4 text-left">{user.email}</td>
                 <td className="px-8 py-4 text-left">{user.phone}</td>
                 <td className="px-8 py-4 flex justify-center pt-5">
@@ -130,12 +130,13 @@ function App() {
               </tr>
             )) : <tr>
               <td colspan="5" className="text-center text-zinc-500 pt-8">
-              No results found. 
-              </td> 
+                No results found.
+              </td>
             </tr>}
           </tbody>
         </table>
       </div>
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-sm text-zinc-400">Made with 💖 by MRGA. All rights reserved.</div>
       {addUserPopUp && (
         <AddUserPopUp setData={setData} setAddUserPopup={setAddUserPopup} />
       )}
