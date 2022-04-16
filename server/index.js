@@ -1,32 +1,17 @@
 const express = require("express");
 const app = express();
+const { faker } = require("@faker-js/faker");
 
 const cors = require("cors");
 // import cors from cors;
 
-let users = [
-  {
-    id: 1,
-    name: "John Doe",
-    age: 87,
-    email: "johndoe@thecodeblog.net",
-    phone: "0123456789",
-  },
-  {
-    id: 2,
-    name: "Jiahuiiiii",
-    age: 60,
-    email: "jiahuiiii@gmail.net",
-    phone: "0123456789",
-  },
-  {
-    id: 3,
-    name: "Henry Phang",
-    age: 87,
-    email: "henry@thecodeblog.net",
-    phone: "0128788787",
-  }
-]
+let users = Array(1000).fill(0).map((_, i) => ({
+  id: i,
+  name: faker.name.findName(),
+  age: faker.datatype.number({ min: 18, max: 60 }),
+  email: faker.internet.email(),
+  phone: faker.phone.phoneNumber(),
+}))
 
 app.use(express.json());
 app.use(cors());
@@ -59,6 +44,7 @@ app.get('/users/search', (req, res) => {
   if (q) {
     result = users.filter(user => user.name.toLowerCase().includes(q.toLowerCase()));
     res.send(result);
+    return;
   }
   res.send([]);
 })

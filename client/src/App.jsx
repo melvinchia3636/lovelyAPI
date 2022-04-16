@@ -64,7 +64,7 @@ function AddUserPopUp({ setData, setAddUserPopup }) {
 }
 
 function App() {
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const [addUserPopUp, setAddUserPopup] = useState(false);
   const [query, setQuery] = useState("");
 
@@ -92,7 +92,7 @@ function App() {
   }
 
   return (
-    <div className="App w-full h-screen flex items-center justify-center relative">
+    <div className="App w-full h-screen text-zinc-800 flex mt-32  justify-center relative">
       <div className="flex w-3/4 flex-col gap-6">
         <div className="w-full flex items-center justify-between">
           <h1 className="text-3xl">Casual People Lmao</h1>
@@ -112,7 +112,7 @@ function App() {
               <th className="py-4 px-8 text-left">Age</th>
               <th className="py-4 px-8 text-left">Email</th>
               <th className="py-4 px-8 text-left">Phone</th>
-              <th className="py-4 px-8 text-left">Delete</th>
+              <th className="py-4 px-8">Delete</th>
             </tr>
           </thead>
           <tbody className="divide-y">
@@ -124,7 +124,7 @@ function App() {
                 <td className="px-8 py-4 text-left">{user.phone}</td>
                 <td className="px-8 py-4 flex justify-center pt-5">
                   <button onClick={() => deleteUser(user.id)}>
-                    <Icon icon="uil:trash-alt" className="text-rose-500" />
+                    <Icon icon="uil:trash-alt" className="!text-rose-500" />
                   </button>
                 </td>
               </tr>
