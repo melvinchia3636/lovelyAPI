@@ -4,34 +4,63 @@ const app = express();
 const cors = require("cors");
 // import cors from cors;
 
+let users = [
+  {
+    id: 1,
+    name: "John Doe",
+    age: 87,
+    email: "johndoe@thecodeblog.net",
+    phone: "0123456789",
+  },
+  {
+    id: 2,
+    name: "Jiahuiiiii",
+    age: 60,
+    email: "jiahuiiii@gmail.net",
+    phone: "0123456789",
+  },
+  {
+    id: 3,
+    name: "Henry Phang",
+    age: 87,
+    email: "henry@thecodeblog.net",
+    phone: "0128788787",
+  }
+]
+
 app.use(express.json());
 app.use(cors());
 
-app.post("/sum", (req, res) => {
-  const numbers = req.body.numbers;
-  console.log(req.body);
-  const sum = numbers.reduce((acc, curr) => acc + curr);
-  res.send(`The sum of the numbers is ${sum}`);
+app.get("/users/list", (req, res) => {
+  res.send(users);
 })
 
-app.post("/multiply", (req, res) => {
-  const numbers = req.body.numbers;
-  const product = numbers.reduce((a, b) => a * b);
-  res.send(`The product of the numbers is ${product}`);
+app.post("/users/add", (req, res) => {
+  const { name, age, email, phone } = req.body;
+  const newUser = {
+    id: users.length + 1,
+    name,
+    age,
+    email,
+    phone
+  }
+  users.push(newUser);
+  res.send(users);
 })
 
-app.all("/lmao", (req, res) => {
-  res.send("lmao");
+app.delete('/users/delete/:id', (req, res) => {
+  const { id } = req.params;
+  users = users.filter(user => user.id !== parseInt(id));
+  res.send(users);
 })
 
-/* app.method('/route', (req, res) => {
-  // do something
-  res.send(result);
-}) */
-
-app.get("/book/:id/page/:page", (req, res) => {
-  console.log(req.params);
-  res.send(`The id of the book you're requesting is ${req.params.id} and the page is ${req.params.page}`);
+app.get('/users/search', (req, res) => {
+  const { q } = req.query;
+  if (q) {
+    result = users.filter(user => user.name.toLowerCase().includes(q.toLowerCase()));
+    res.send(result);
+  }
+  res.send([]);
 })
 
 app.listen(3001, () => {
