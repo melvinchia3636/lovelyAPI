@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useTransition } from "react";
 import { Icon } from "@iconify/react";
 
 function AddUserPopUp({ setData, setAddUserPopup }) {
@@ -92,51 +92,66 @@ function App() {
   }
 
   return (
-    <div className="App w-full text-zinc-800 flex flex-col py-32 items-center relative">
+    <div className="App w-full bg-slate-100 text-slate-700 flex flex-col py-32 items-center relative">
       <div className="flex w-3/4 flex-col gap-6">
         <div className="w-full flex items-center justify-between">
-          <h1 className="text-3xl">Contact List</h1>
-          <button onClick={() => setAddUserPopup(true)} className="bg-amber-500 flex items-center gap-1 px-8 py-2 rounded-md text-white shadow-md hover:bg-amber-600 transition-all">
+          <div>
+            <h1 className="text-3xl">Contact List</h1>
+            <p className="text-slate-400">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem.</p>
+          </div>
+          <button onClick={() => setAddUserPopup(true)} className="bg-amber-500 flex items-center gap-1 px-4 pr-5 py-3 rounded-md text-white shadow-md hover:bg-amber-600 transition-all">
             <Icon icon="uil:plus" className="stroke stroke-white" />
             Add user
           </button>
         </div>
         <div className="flex items-center gap-4 border-b-2 py-4 rounded-md">
-          <Icon icon="uil:search" className="w-6 h-6 text-zinc-500" />
-          <input value={query} onChange={(e) => setQuery(e.target.value)} type="text" placeholder="Search user..." className="placeholder-zinc-500 w-full focus:outline-none" />
+          <Icon icon="uil:search" className="w-6 h-6 text-slate-500" />
+          <input value={query} onChange={(e) => setQuery(e.target.value)} type="text" placeholder="Search user..." className="placeholder-slate-500 w-full focus:outline-none bg-transparent" />
         </div>
         <table className="min-w-0">
-          <thead className="border-b border-zinc-500">
+          <thead className="border-b border-slate-500">
             <tr>
               <th className="py-3 px-8 text-left">Name</th>
-              <th className="py-3 px-8">Age</th>
-              <th className="py-3 px-8 text-left">Email</th>
-              <th className="py-3 px-8 text-left">Phone</th>
-              <th className="py-3 px-8">Delete</th>
+              <th className="py-3 px-8 text-left">Title</th>
+              <th className="py-3 px-8 text-left">Status</th>
+              <th className="py-3 px-8 text-left">Role</th>
             </tr>
           </thead>
           <tbody className="divide-y">
             {data.length ? data.map(user => (
               <tr key={user.id}>
-                <td className="px-8 py-4 text-left">{user.name}</td>
-                <td className="px-8 py-4 text-center">{user.age}</td>
-                <td className="px-8 py-4 text-left">{user.email}</td>
-                <td className="px-8 py-4 text-left">{user.phone}</td>
-                <td className="px-8 py-4 flex justify-center pt-5">
+                <td className="px-8 py-4 text-left flex items-center gap-4">
+                  <img src={user.avatar} className="w-12 h-12 rounded-full" />
+                  <div className="flex flex-col">
+                    {user.name}
+                    <span className="text-sm text-slate-400 block">{user.email}</span>
+                  </div>
+                </td>
+                <td className="px-8 py-4 text-left">
+                  {user.jobTitle}
+                  <span className="text-sm text-slate-400 block">{user.jobArea}</span>
+                </td>
+                <td className="px-8 py-4 text-left text-slate-700">
+                  <span className={`text-sm w-[5rem] flex justify-center py-1 rounded-full ${{"active": "bg-green-200 text-green-500", "offline":"bg-rose-200 text-rose-500", "idle": "bg-amber-200 text-amber-500"}[user.status]}`}>{user.status}</span>
+                </td>
+                <td className="px-8 py-4 text-left text-slate-700">
+                  {user.jobType}
+                </td>
+                <td className="px-8 py-4 pt-5">
                   <button onClick={() => deleteUser(user.id)}>
-                    <Icon icon="uil:trash-alt" className="!text-rose-500" />
+                    <Icon icon="uil:trash-alt" className="!text-rose-500 w-5 h-5" />
                   </button>
                 </td>
               </tr>
             )) : <tr>
-              <td colspan="5" className="text-center text-zinc-500 pt-8">
+              <td colspan="5" className="text-center text-slate-500 pt-8">
                 No results found.
               </td>
             </tr>}
           </tbody>
         </table>
       </div>
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-sm text-zinc-400">Made with 💖 by MRGA. All rights reserved.</div>
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-sm text-slate-400">Made with 💖 by MRGA. All rights reserved.</div>
       {addUserPopUp && (
         <AddUserPopUp setData={setData} setAddUserPopup={setAddUserPopup} />
       )}

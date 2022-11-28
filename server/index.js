@@ -7,10 +7,13 @@ const cors = require("cors");
 
 let users = Array(1000).fill(0).map((_, i) => ({
   id: i,
+  avatar: faker.internet.avatar(),
   name: faker.name.findName(),
-  age: faker.datatype.number({ min: 18, max: 60 }),
   email: faker.internet.email(),
-  phone: faker.phone.phoneNumber(),
+  jobTitle: faker.name.jobTitle(),
+  jobArea: faker.name.jobArea(),
+  jobType: faker.name.jobType(),
+  status: faker.random.arrayElement(['active', 'offline', 'idle'])
 }))
 
 app.use(express.json());

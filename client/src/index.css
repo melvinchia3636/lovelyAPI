@@ -7,3 +7,7 @@
 * {
   font-family: Rubik;
 }
+
+td {
+  vertical-align: middle
+}
